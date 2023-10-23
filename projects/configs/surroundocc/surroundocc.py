@@ -5,6 +5,7 @@ _base_ = [
 #
 plugin = True
 plugin_dir = 'projects/mmdet3d_plugin/'
+# plugin_dir = '/home/dell/liyongjing/programs/SurroundOcc-liyj/projects/mmdet3d_plugin/'
 
 # If point cloud range is changed, the models should also change their point
 # cloud range accordingly
