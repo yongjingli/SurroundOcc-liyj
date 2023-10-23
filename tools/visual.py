@@ -33,7 +33,10 @@ colors = np.array(
 
 #mlab.options.offscreen = True
 
-voxel_size = 0.5
+# voxel_size = 0.5
+# https://github.com/weiyithu/SurroundOcc/issues/66
+# If you visualize the occupancy groundtruth, you should set voxel size as 1 in visual.py since the distance between neighbored voxels is 1.
+voxel_size = 1.0    # gt
 pc_range = [-50, -50,  -5, 50, 50, 3]
 
 visual_path = sys.argv[1]

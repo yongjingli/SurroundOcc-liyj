@@ -1,8 +1,10 @@
+import open3d as o3d
 import os
 import sys
 import pdb
 import time
 import yaml
+# import open3d
 import torch
 import chamfer
 import mmcv
@@ -18,8 +20,8 @@ from mmcv.ops.points_in_boxes import (points_in_boxes_all, points_in_boxes_cpu,
                                       points_in_boxes_part)
 from scipy.spatial.transform import Rotation
 
-import open3d
-import open3d as o3d
+# import open3d
+# import open3d as o3d
 from copy import deepcopy
 
 
@@ -473,7 +475,8 @@ if __name__ == '__main__':
     parse.add_argument('--save_path', type=str, default='./data/GT_occupancy/')
     parse.add_argument('--start', type=int, default=0)
     parse.add_argument('--end', type=int, default=850)
-    parse.add_argument('--dataroot', type=str, default='./data/nuScenes/')
+    # parse.add_argument('--dataroot', type=str, default='./data/nuScenes/')
+    parse.add_argument('--dataroot', type=str, default='./data/nuScenes_mini/')
     parse.add_argument('--nusc_val_list', type=str, default='./nuscenes_val_list.txt')
     parse.add_argument('--label_mapping', type=str, default='nuscenes.yaml')
     args=parse.parse_args()
@@ -486,7 +489,10 @@ if __name__ == '__main__':
                 val_list.append(item[:-1])
         file.close()
 
-        nusc = NuScenes(version='v1.0-trainval',
+        # nusc = NuScenes(version='v1.0-trainval',
+        #                 dataroot=args.dataroot,
+        #                 verbose=True)
+        nusc = NuScenes(version='v1.0-mini',
                         dataroot=args.dataroot,
                         verbose=True)
         train_scenes = splits.train
@@ -505,6 +511,10 @@ if __name__ == '__main__':
 
 
     for i in range(args.start,args.end):
+        # i = 4
         print('processing sequecne:', i)
-        main(nusc, val_list, indice=i,
-             nuscenesyaml=nuscenesyaml, args=args, config=config)
+        if i < len(nusc.scene):
+            main(nusc, val_list, indice=i,
+                 nuscenesyaml=nuscenesyaml, args=args, config=config)
+        else:
+            print("skip {}, max length of scenes is {}".format(i, len(nusc.scene)))
